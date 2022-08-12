@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import "./scss/app.scss";
+import Header from "./components/Header";
+import Filter from "./components/Filter";
+import Sort from "./components/Sort";
+import PizzaCard from "./components/PizzaCard";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="wrapper">
+      <Header />
+      <div className="content">
+        <div className="container">
+          <div className="content__top">
+            <Filter />
+            <Sort />
+          </div>
+          <h2 className="content__title">Все пиццы</h2>
+          <div className="content__items">
+            <PizzaCard />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
