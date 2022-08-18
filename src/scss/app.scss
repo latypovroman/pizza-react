@@ -14,6 +14,11 @@ body {
   margin: 50px auto;
   border-radius: 10px;
   max-width: 1400px;
+
+  @media screen and (max-width: 800px) {
+    width: calc(100vw - 50px);
+    margin: 25px auto;
+}
 }
 
 .content {
@@ -24,15 +29,19 @@ body {
   }
 
   &__items {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 11px;
+    justify-items: center;
   }
 
   &__top {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
   }
 }
 
