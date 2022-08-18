@@ -1,33 +1,22 @@
 import React from "react";
 import "./scss/app.scss";
 import Header from "./components/Header";
-import Filter from "./components/Filter";
-import Sort from "./components/Sort";
-import PizzaCard from "./components/PizzaCard";
-import * as api from "./assets/api";
+import { Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
+import Cart from "./pages/Cart";
 
 function App() {
-  const [pizzas, setPizzas] = React.useState([]);
-
-  React.useEffect(() => {
-    api.getPizzas().then((pizzas) => setPizzas(pizzas));
-  }, []);
-
   return (
     <div className="wrapper">
       <Header />
       <div className="content">
         <div className="container">
-          <div className="content__top">
-            <Filter />
-            <Sort />
-          </div>
-          <h2 className="content__title">Все пиццы</h2>
-          <div className="content__items">
-            {pizzas.map((pizza) => (
-              <PizzaCard key={pizza.id} {...pizza} />
-            ))}
-          </div>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
         </div>
       </div>
     </div>
