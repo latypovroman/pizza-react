@@ -14,10 +14,11 @@ const Home = () => {
       setPizzas(pizzas);
       setIsFetching(false);
     });
+    window.scrollTo(0, 0);
   }, []);
 
   return (
-    <>
+    <div className="container">
       <div className="content__top">
         <Filter />
         <Sort />
@@ -28,7 +29,7 @@ const Home = () => {
           ? [...new Array(9)].map((p, index) => <PizzaSkeleton key={index} />)
           : pizzas.map((pizza) => <PizzaCard key={pizza.id} {...pizza} />)}
       </div>
-    </>
+    </div>
   );
 };
 
