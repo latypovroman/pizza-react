@@ -1,7 +1,6 @@
 import React from "react";
 
-const Filter = () => {
-  const [activeFilter, setActiveFilter] = React.useState(0);
+const Filter = ({ activeFilter, onClickCategory }) => {
   const categories = [
     "Все",
     "Мясные",
@@ -10,10 +9,6 @@ const Filter = () => {
     "Острые",
     "Закрытые",
   ];
-
-  const onClickCategory = (index) => {
-    setActiveFilter(index);
-  };
 
   return (
     <div className="categories">

@@ -8,20 +8,34 @@ import PizzaSkeleton from "../assets/PizzaSkeleton";
 const Home = () => {
   const [pizzas, setPizzas] = React.useState([]);
   const [isFetching, setIsFetching] = React.useState(true);
+  const [activeFilter, setActiveFilter] = React.useState(0);
+  const [activeSort, setActiveSort] = React.useState({
+    name: "популярности",
+    property: "rating",
+  });
 
   React.useEffect(() => {
-    api.getPizzas().then((pizzas) => {
+    setIsFetching(true);
+    api.getPizzas(activeFilter, activeSort).then((pizzas) => {
       setPizzas(pizzas);
       setIsFetching(false);
     });
     window.scrollTo(0, 0);
-  }, []);
+  }, [activeFilter, activeSort]);
+
+  const onClickCategory = (index) => {
+    setActiveFilter(index);
+  };
+
+  const onClickSort = (type) => {
+    setActiveSort(type);
+  };
 
   return (
     <div className="container">
       <div className="content__top">
-        <Filter />
-        <Sort />
+        <Filter activeFilter={activeFilter} onClickCategory={onClickCategory} />
+        <Sort activeSort={activeSort} onClickSort={onClickSort} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
