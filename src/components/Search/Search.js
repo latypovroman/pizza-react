@@ -1,7 +1,9 @@
 import React from "react";
 import styles from "./Search.module.scss";
+import { SearchValueContext } from "../../context/SearchValueContext";
 
-const Search = ({ searchValue, setSearchValue }) => {
+const Search = () => {
+  const { searchValue, setSearchValue } = React.useContext(SearchValueContext);
   const onChangeHandle = (evt) => setSearchValue(evt.target.value);
   const onResetHandle = () => setSearchValue("");
 

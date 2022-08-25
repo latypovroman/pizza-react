@@ -5,8 +5,10 @@ import PizzaCard from "../components/PizzaCard";
 import * as api from "../assets/api";
 import PizzaSkeleton from "../assets/PizzaSkeleton";
 import Pagination from "../components/Pagination";
+import { SearchValueContext } from "../context/SearchValueContext";
 
-const Home = ({ searchValue }) => {
+const Home = () => {
+  const { searchValue } = React.useContext(SearchValueContext);
   const [pizzas, setPizzas] = React.useState([]);
   const [isFetching, setIsFetching] = React.useState(true);
   const [activeFilter, setActiveFilter] = React.useState(0);
