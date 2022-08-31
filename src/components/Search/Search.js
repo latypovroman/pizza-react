@@ -4,12 +4,19 @@ import { SearchValueContext } from "../../context/SearchValueContext";
 
 const Search = () => {
   const { searchValue, setSearchValue } = React.useContext(SearchValueContext);
+  const inputRef = React.useRef();
+
   const onChangeHandle = (evt) => setSearchValue(evt.target.value);
-  const onResetHandle = () => setSearchValue("");
+
+  const onResetHandle = () => {
+    inputRef.current.focus();
+    setSearchValue("");
+  };
 
   return (
     <div className={styles.root}>
       <input
+        ref={inputRef}
         onChange={onChangeHandle}
         value={searchValue}
         className={styles.input}

@@ -8,7 +8,6 @@ import Pagination from "../components/Pagination";
 import { SearchValueContext } from "../context/SearchValueContext";
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveFilter } from "../redux/slices/filterSlice";
-import axios from "axios";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -24,8 +23,8 @@ const Home = () => {
     setIsFetching(true);
     api
       .getPizzas(activeFilter, activeSort, searchValue, currentPage)
-      .then((pizzas) => {
-        setPizzas(pizzas);
+      .then((res) => {
+        setPizzas(res.data);
         setIsFetching(false);
       });
     window.scrollTo(0, 0);
