@@ -1,15 +1,20 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setActiveSort } from "../redux/slices/filterSlice";
 
-const Sort = ({ activeSort, onClickSort }) => {
+const sortTypes = [
+  { name: "популярности", property: "rating" },
+  { name: "цене", property: "price" },
+  { name: "алфавиту", property: "title" },
+];
+
+const Sort = () => {
+  const dispatch = useDispatch();
+  const activeSort = useSelector((state) => state.filterReducer.activeSort);
   const [isPopupOpened, setIsPopupOpened] = React.useState(false);
-  const sortTypes = [
-    { name: "популярности", property: "rating" },
-    { name: "цене", property: "price" },
-    { name: "алфавиту", property: "title" },
-  ];
 
   const onClickHandle = (type) => {
-    onClickSort(type);
+    dispatch(setActiveSort(type));
     setIsPopupOpened(false);
   };
 

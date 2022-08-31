@@ -6,17 +6,19 @@ import * as api from "../assets/api";
 import PizzaSkeleton from "../assets/PizzaSkeleton";
 import Pagination from "../components/Pagination";
 import { SearchValueContext } from "../context/SearchValueContext";
+import { useDispatch, useSelector } from "react-redux";
+import { setActiveFilter } from "../redux/slices/filterSlice";
+import axios from "axios";
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const { activeFilter, activeSort } = useSelector(
+    (state) => state.filterReducer
+  );
   const { searchValue } = React.useContext(SearchValueContext);
   const [pizzas, setPizzas] = React.useState([]);
   const [isFetching, setIsFetching] = React.useState(true);
-  const [activeFilter, setActiveFilter] = React.useState(0);
   const [currentPage, setCurrentPage] = React.useState(1);
-  const [activeSort, setActiveSort] = React.useState({
-    name: "популярности",
-    property: "rating",
-  });
 
   React.useEffect(() => {
     setIsFetching(true);
@@ -29,24 +31,22 @@ const Home = () => {
     window.scrollTo(0, 0);
   }, [activeFilter, activeSort, searchValue, currentPage]);
 
-  const onClickCategory = (index) => {
-    setActiveFilter(index);
-  };
-
-  const onClickSort = (type) => {
-    setActiveSort(type);
+  const onChangeCategory = (index) => {
+    dispatch(setActiveFilter(index));
   };
 
   const onChangeCurrentPage = (number) => {
     setCurrentPage(number);
   };
-  console.log(pizzas.length);
 
   return (
     <div className="container">
       <div className="content__top">
-        <Filter activeFilter={activeFilter} onClickCategory={onClickCategory} />
-        <Sort activeSort={activeSort} onClickSort={onClickSort} />
+        <Filter
+          activeFilter={activeFilter}
+          onClickCategory={onChangeCategory}
+        />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
