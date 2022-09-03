@@ -10,8 +10,21 @@ export const sortTypes = [
 
 const Sort = () => {
   const dispatch = useDispatch();
+  const sortRef = React.useRef();
   const activeSort = useSelector((state) => state.filterReducer.activeSort);
   const [isPopupOpened, setIsPopupOpened] = React.useState(false);
+
+  React.useEffect(() => {
+    const handleOutsideClick = (evt) => {
+      if (!evt.path.includes(sortRef.current)) {
+        setIsPopupOpened(false);
+        console.log(evt.path.includes(sortRef.current));
+      }
+    };
+    document.body.addEventListener("click", handleOutsideClick);
+
+    return () => document.body.removeEventListener("click", handleOutsideClick);
+  }, []);
 
   const onClickHandle = (type) => {
     dispatch(setActiveSort(type));
@@ -21,7 +34,7 @@ const Sort = () => {
   const switchPopup = () => setIsPopupOpened(!isPopupOpened);
 
   return (
-    <div className="sort">
+    <div className="sort" ref={sortRef}>
       <div className="sort__label">
         <svg
           width="10"
