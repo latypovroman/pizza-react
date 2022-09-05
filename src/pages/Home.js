@@ -42,14 +42,22 @@ const Home = () => {
     }
   }, []);
 
-  function fetchPizzas() {
+  async function fetchPizzas() {
     setIsFetching(true);
-    api
-      .getPizzas(activeFilter, activeSort, searchValue, currentPage)
-      .then((res) => {
-        setPizzas(res.data);
-        setIsFetching(false);
-      });
+    try {
+      const res = await api.getPizzas(
+        activeFilter,
+        activeSort,
+        searchValue,
+        currentPage
+      );
+      setPizzas(res.data);
+    } catch (err) {
+      console.log(err);
+      alert("произошла ошибка");
+    } finally {
+      setIsFetching(false);
+    }
   }
 
   React.useEffect(() => {
