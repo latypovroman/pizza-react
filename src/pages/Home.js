@@ -15,15 +15,16 @@ import {
   setDeeplinkFilter,
 } from "../redux/slices/filterSlice";
 import { sortTypes } from "../components/Sort";
+import { setItems } from "../redux/slices/pizzasSlice";
 
 const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const pizzas = useSelector((state) => state.pizzasReducer.items);
   const { activeFilter, activeSort, currentPage } = useSelector(
     (state) => state.filterReducer
   );
   const { searchValue } = React.useContext(SearchValueContext);
-  const [pizzas, setPizzas] = React.useState([]);
   const [isFetching, setIsFetching] = React.useState(true);
   const hasParams = React.useRef(false);
   const didMounted = React.useRef(false);
@@ -45,13 +46,13 @@ const Home = () => {
   async function fetchPizzas() {
     setIsFetching(true);
     try {
-      const res = await api.getPizzas(
+      const { data } = await api.getPizzas(
         activeFilter,
         activeSort,
         searchValue,
         currentPage
       );
-      setPizzas(res.data);
+      dispatch(setItems(data));
     } catch (err) {
       console.log(err);
       alert("произошла ошибка");
