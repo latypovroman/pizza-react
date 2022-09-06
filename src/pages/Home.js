@@ -15,17 +15,16 @@ import {
   setDeeplinkFilter,
 } from "../redux/slices/filterSlice";
 import { sortTypes } from "../components/Sort";
-import { setItems } from "../redux/slices/pizzasSlice";
+import { fetchPizzas, setItems } from "../redux/slices/pizzasSlice";
 
 const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const pizzas = useSelector((state) => state.pizzasReducer.items);
+  const { pizzas, status } = useSelector((state) => state.pizzasReducer);
   const { activeFilter, activeSort, currentPage } = useSelector(
     (state) => state.filterReducer
   );
   const { searchValue } = React.useContext(SearchValueContext);
-  const [isFetching, setIsFetching] = React.useState(true);
   const hasParams = React.useRef(false);
   const didMounted = React.useRef(false);
 
@@ -43,28 +42,25 @@ const Home = () => {
     }
   }, []);
 
-  async function fetchPizzas() {
-    setIsFetching(true);
+  async function getPizzas() {
     try {
-      const { data } = await api.getPizzas(
+      const data = {
         activeFilter,
         activeSort,
         searchValue,
-        currentPage
-      );
-      dispatch(setItems(data));
+        currentPage,
+      };
+      dispatch(fetchPizzas(data));
     } catch (err) {
       console.log(err);
       alert("произошла ошибка");
-    } finally {
-      setIsFetching(false);
     }
   }
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
     if (!hasParams.current) {
-      fetchPizzas();
+      getPizzas();
     }
 
     hasParams.current = false;
@@ -91,6 +87,18 @@ const Home = () => {
     dispatch(setCurrentPage(number));
   };
 
+  const pizzasRender = pizzas.map((pizza) => {
+    const title = pizza.title.toLowerCase();
+    const value = searchValue.toLowerCase();
+    if (title.includes(value)) {
+      return <PizzaCard key={pizza.id} {...pizza} />;
+    }
+  });
+
+  const skeleton = [...new Array(9)].map((p, index) => (
+    <PizzaSkeleton key={index} />
+  ));
+
   return (
     <div className="container">
       <div className="content__top">
@@ -101,10 +109,14 @@ const Home = () => {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
+      {status === "error" && (
+        <>
+          <h2 style={{ fontSize: 40 }}>Произошла ошибка</h2>
+          <p>Сервер, к сожалению, не хочет показывать пиццы :(</p>
+        </>
+      )}
       <div className="content__items">
-        {isFetching
-          ? [...new Array(9)].map((p, index) => <PizzaSkeleton key={index} />)
-          : pizzas.map((pizza) => <PizzaCard key={pizza.id} {...pizza} />)}
+        {status === "loading" ? skeleton : pizzasRender}
       </div>
       {(pizzas.length > 5 || currentPage > 1) && (
         <Pagination onChangeCurrentPage={onChangeCurrentPage} />

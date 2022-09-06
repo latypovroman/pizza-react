@@ -1,4 +1,5 @@
 import React from "react";
+import { SearchValueContext } from "../context/SearchValueContext";
 
 const Filter = ({ activeFilter, onClickCategory }) => {
   const categories = [
