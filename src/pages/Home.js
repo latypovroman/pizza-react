@@ -4,10 +4,8 @@ import qs from "qs";
 import Filter from "../components/Filter";
 import Sort from "../components/Sort";
 import PizzaCard from "../components/PizzaCard";
-import * as api from "../assets/api";
 import PizzaSkeleton from "../assets/PizzaSkeleton";
 import Pagination from "../components/Pagination";
-import { SearchValueContext } from "../context/SearchValueContext";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setActiveFilter,
@@ -15,16 +13,16 @@ import {
   setDeeplinkFilter,
 } from "../redux/slices/filterSlice";
 import { sortTypes } from "../components/Sort";
-import { fetchPizzas, setItems } from "../redux/slices/pizzasSlice";
+import { fetchPizzas } from "../redux/slices/pizzasSlice";
 
 const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { pizzas, status } = useSelector((state) => state.pizzasReducer);
-  const { activeFilter, activeSort, currentPage } = useSelector(
+  const { activeFilter, activeSort, currentPage, searchValue } = useSelector(
     (state) => state.filterReducer
   );
-  const { searchValue } = React.useContext(SearchValueContext);
+  // const { searchValue } = React.useContext(SearchValueContext);
   const hasParams = React.useRef(false);
   const didMounted = React.useRef(false);
 
