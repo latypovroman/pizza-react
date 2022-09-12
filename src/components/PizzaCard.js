@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem, selectCartItemById } from "../redux/slices/cartSlice";
+import { openPopup, setPopupData } from "../redux/slices/popupSlice";
 
 const PizzaCard = ({ id, title, price, imageUrl, sizes, types }) => {
   const dispatch = useDispatch();
@@ -8,6 +9,16 @@ const PizzaCard = ({ id, title, price, imageUrl, sizes, types }) => {
   const [activeSize, setActiveSize] = React.useState(0);
   const [doughType, setDoughType] = React.useState(0);
   const doughTypes = ["Тонкое", "Традиционное"];
+  const item = React.useMemo(() => {
+    return {
+      id,
+      title,
+      price,
+      imageUrl,
+      size: sizes[activeSize],
+      type: doughTypes[doughType],
+    };
+  }, [id, imageUrl, sizes, types, price, doughType, activeSize, title]);
 
   const onClickSize = (index) => {
     setActiveSize(index);
@@ -17,21 +28,23 @@ const PizzaCard = ({ id, title, price, imageUrl, sizes, types }) => {
     setDoughType(index);
   };
 
+  const onClickImage = () => {
+    dispatch(setPopupData(item));
+    dispatch(openPopup());
+  };
+
   const onClickAdd = () => {
-    const item = {
-      id,
-      title,
-      price,
-      imageUrl,
-      size: sizes[activeSize],
-      type: doughTypes[doughType],
-    };
     dispatch(addItem(item));
   };
 
   return (
     <div className="pizza-block">
-      <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
+      <img
+        onClick={onClickImage}
+        className="pizza-block__image"
+        src={imageUrl}
+        alt="Pizza"
+      />
       <h4 className="pizza-block__title">{title}</h4>
       <div className="pizza-block__selector">
         <ul>

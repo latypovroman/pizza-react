@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../mesto-react/.idea/mesto-react.iml" filepath="$PROJECT_DIR$/../mesto-react/.idea/mesto-react.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/pizza-react.iml" filepath="$PROJECT_DIR$/.idea/pizza-react.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../todo-react/.idea/todo-react.iml" filepath="$PROJECT_DIR$/../todo-react/.idea/todo-react.iml" />
     </modules>
   </component>
 </project>

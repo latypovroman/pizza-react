@@ -14,6 +14,7 @@ import {
 } from "../redux/slices/filterSlice";
 import { sortTypes } from "../components/Sort";
 import { fetchPizzas } from "../redux/slices/pizzasSlice";
+import PizzaPopup from "../components/PizzaPopup";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -22,7 +23,6 @@ const Home = () => {
   const { activeFilter, activeSort, currentPage, searchValue } = useSelector(
     (state) => state.filterReducer
   );
-  // const { searchValue } = React.useContext(SearchValueContext);
   const hasParams = React.useRef(false);
   const didMounted = React.useRef(false);
 
@@ -119,6 +119,7 @@ const Home = () => {
       {(pizzas.length > 5 || currentPage > 1) && (
         <Pagination onChangeCurrentPage={onChangeCurrentPage} />
       )}
+      <PizzaPopup />
     </div>
   );
 };
