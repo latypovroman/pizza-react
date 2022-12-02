@@ -2,18 +2,18 @@ import React from "react";
 import { Link } from "react-router-dom";
 import empty from "../assets/img/empty-cart.png";
 
-const CartEmpty = () => {
+const CartEmpty: React.FC = () => {
   return (
     <div className="content">
       <div className="container container--cart">
         <div className="cart cart--empty">
           <h2>
-            Корзина пустая <icon>😕</icon>
+            Корзина пустая <span>😕</span>
           </h2>
           <p>
-            Вероятнее всего, вы не заказывали ещё пиццу.
+            Похоже, вы не добавили ни одной пиццы.
             <br />
-            Для того, чтобы заказать пиццу, перейди на главную страницу.
+            Самое время перейти на главную страницу и сделать это!
           </p>
           <img src={empty} alt="Empty cart" />
           <Link to="/" className="button button--black">

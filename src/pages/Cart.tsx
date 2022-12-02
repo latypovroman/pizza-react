@@ -93,7 +93,7 @@ const Cart = () => {
           </div>
         </div>
         <div className="cart__items">
-          {items.map((item) => (
+          {items.map((item: any) => (
             <CartItem key={item.id} {...item} />
           ))}
         </div>

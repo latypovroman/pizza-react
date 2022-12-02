@@ -2,8 +2,10 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem, selectCartItemById } from "../redux/slices/cartSlice";
 import { openPopup, setPopupData } from "../redux/slices/popupSlice";
+import { useNavigate } from "react-router-dom";
 
 const PizzaCard = ({ id, title, price, imageUrl, sizes, types }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const addedItem = useSelector(selectCartItemById(id));
   const [activeSize, setActiveSize] = React.useState(0);
@@ -31,6 +33,7 @@ const PizzaCard = ({ id, title, price, imageUrl, sizes, types }) => {
   const onClickImage = () => {
     dispatch(setPopupData(item));
     dispatch(openPopup());
+    navigate(`/pizzas/${item.id}`);
   };
 
   const onClickAdd = () => {

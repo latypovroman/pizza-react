@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Outlet } from "react-router-dom";
 import qs from "qs";
 import Filter from "../components/Filter";
 import Sort from "../components/Sort";
@@ -14,7 +14,6 @@ import {
 } from "../redux/slices/filterSlice";
 import { sortTypes } from "../components/Sort";
 import { fetchPizzas } from "../redux/slices/pizzasSlice";
-import PizzaPopup from "../components/PizzaPopup";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -91,6 +90,7 @@ const Home = () => {
     if (title.includes(value)) {
       return <PizzaCard key={pizza.id} {...pizza} />;
     }
+    return null;
   });
 
   const skeleton = [...new Array(9)].map((p, index) => (
@@ -115,11 +115,14 @@ const Home = () => {
       )}
       <div className="content__items">
         {status === "loading" ? skeleton : pizzasRender}
+        {!pizzasRender.length && status === "success" && (
+          <h2 style={{ fontSize: 40 }}>Пиццы не найдены</h2>
+        )}
       </div>
       {(pizzas.length > 5 || currentPage > 1) && (
         <Pagination onChangeCurrentPage={onChangeCurrentPage} />
       )}
-      <PizzaPopup />
+      <Outlet />
     </div>
   );
 };

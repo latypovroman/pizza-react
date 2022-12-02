@@ -8,6 +8,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="todo-react" />
+    <orderEntry type="module" module-name="MVP_HR_Landing-page" />
   </component>
 </module>

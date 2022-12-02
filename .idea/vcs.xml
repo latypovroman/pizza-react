@@ -2,6 +2,6 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/../todo-react" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../MVP_HR_Landing-page" vcs="Git" />
   </component>
 </project>

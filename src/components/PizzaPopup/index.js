@@ -4,8 +4,10 @@ import closeIcon from "../../assets/img/close-icon.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { closePopup } from "../../redux/slices/popupSlice";
 import { addItem, selectCartItemById } from "../../redux/slices/cartSlice";
+import { useNavigate } from "react-router-dom";
 
 const PizzaPopup = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { item, isOpened } = useSelector((state) => state.popupReducer);
   const addedItem = useSelector(selectCartItemById(item.id));
@@ -17,6 +19,7 @@ const PizzaPopup = () => {
 
   const close = () => {
     dispatch(closePopup());
+    navigate(`/`);
   };
 
   const onClickAdd = () => {
