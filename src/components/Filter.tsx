@@ -1,7 +1,14 @@
 import React from "react";
-import { SearchValueContext } from "../context/SearchValueContext";
 
-const Filter = ({ activeFilter, onClickCategory }) => {
+type CategoriesProps = {
+  activeFilter: number;
+  onClickCategory: any;
+};
+
+const Filter: React.FC<CategoriesProps> = ({
+  activeFilter,
+  onClickCategory,
+}) => {
   const categories = [
     "Все",
     "Мясные",

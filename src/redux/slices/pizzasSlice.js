@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as api from "../../assets/api";
+import { selectFilterSlice } from "./filterSlice";
 
 export const fetchPizzas = createAsyncThunk(
   "pizzas/fetchByIdStatus",
@@ -33,6 +34,8 @@ export const pizzasSlice = createSlice({
     },
   },
 });
+
+export const selectPizzasSlice = (state) => state.pizzasReducer;
 
 export const { setItems } = pizzasSlice.actions;
 

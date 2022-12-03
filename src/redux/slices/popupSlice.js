@@ -12,14 +12,16 @@ export const popupSlice = createSlice({
     setPopupData: (state, action) => {
       state.item = action.payload;
     },
-    openPopup: (state, action) => {
+    openPopup: (state) => {
       state.isOpened = true;
     },
-    closePopup: (state, action) => {
+    closePopup: (state) => {
       state.isOpened = false;
     },
   },
 });
+
+export const selectPopup = (state) => state.popupReducer;
 
 export const { setPopupData, openPopup, closePopup } = popupSlice.actions;
 

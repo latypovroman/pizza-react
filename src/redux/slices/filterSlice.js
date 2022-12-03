@@ -34,6 +34,10 @@ export const filterSlice = createSlice({
   },
 });
 
+export const selectFilterSlice = (state) => state.filterReducer;
+export const selectActiveSort = (state) => state.filterReducer.activeSort;
+export const selectSearchValue = (state) => state.filterReducer.searchValue;
+
 export const {
   setSearchValue,
   setActiveFilter,

@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setActiveSort } from "../redux/slices/filterSlice";
+import { selectActiveSort, setActiveSort } from "../redux/slices/filterSlice";
 
 type SortTypesItem = {
   name: string;
@@ -15,15 +15,14 @@ export const sortTypes: SortTypesItem[] = [
 
 const Sort = () => {
   const dispatch = useDispatch();
-  const sortRef = React.useRef();
-  const activeSort = useSelector((state) => state.filterReducer.activeSort);
+  const sortRef = React.useRef<HTMLDivElement>(null);
+  const activeSort = useSelector(selectActiveSort);
   const [isPopupOpened, setIsPopupOpened] = React.useState(false);
 
   React.useEffect(() => {
-    const handleOutsideClick = (evt) => {
+    const handleOutsideClick = (evt: any) => {
       if (!evt.path.includes(sortRef.current)) {
         setIsPopupOpened(false);
-        console.log(evt.path.includes(sortRef.current));
       }
     };
     document.body.addEventListener("click", handleOutsideClick);

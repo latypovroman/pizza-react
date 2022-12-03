@@ -2,14 +2,14 @@ import React from "react";
 import styles from "./PizzaPopup.module.scss";
 import closeIcon from "../../assets/img/close-icon.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { closePopup } from "../../redux/slices/popupSlice";
+import { closePopup, selectPopup } from "../../redux/slices/popupSlice";
 import { addItem, selectCartItemById } from "../../redux/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
 
-const PizzaPopup = () => {
+const PizzaPopup: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { item, isOpened } = useSelector((state) => state.popupReducer);
+  const { item, isOpened } = useSelector(selectPopup);
   const addedItem = useSelector(selectCartItemById(item.id));
   const rootStyles = [styles.inner];
 

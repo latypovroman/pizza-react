@@ -8,20 +8,20 @@ import PizzaSkeleton from "../assets/PizzaSkeleton";
 import Pagination from "../components/Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  selectFilterSlice,
   setActiveFilter,
   setCurrentPage,
   setDeeplinkFilter,
 } from "../redux/slices/filterSlice";
 import { sortTypes } from "../components/Sort";
-import { fetchPizzas } from "../redux/slices/pizzasSlice";
+import { fetchPizzas, selectPizzasSlice } from "../redux/slices/pizzasSlice";
 
-const Home = () => {
+const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { pizzas, status } = useSelector((state) => state.pizzasReducer);
-  const { activeFilter, activeSort, currentPage, searchValue } = useSelector(
-    (state) => state.filterReducer
-  );
+  const { pizzas, status } = useSelector(selectPizzasSlice);
+  const { activeFilter, activeSort, currentPage, searchValue } =
+    useSelector(selectFilterSlice);
   const hasParams = React.useRef(false);
   const didMounted = React.useRef(false);
 
@@ -47,6 +47,7 @@ const Home = () => {
         searchValue,
         currentPage,
       };
+      // @ts-ignore
       dispatch(fetchPizzas(data));
     } catch (err) {
       console.log(err);
@@ -76,15 +77,15 @@ const Home = () => {
     didMounted.current = true;
   }, [activeFilter, activeSort, currentPage]);
 
-  const onChangeCategory = (index) => {
+  const onChangeCategory = (index: number) => {
     dispatch(setActiveFilter(index));
   };
 
-  const onChangeCurrentPage = (number) => {
+  const onChangeCurrentPage = (number: number) => {
     dispatch(setCurrentPage(number));
   };
 
-  const pizzasRender = pizzas.map((pizza) => {
+  const pizzasRender = pizzas.map((pizza: any) => {
     const title = pizza.title.toLowerCase();
     const value = searchValue.toLowerCase();
     if (title.includes(value)) {
