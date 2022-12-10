@@ -2,7 +2,7 @@ import React from "react";
 
 type CategoriesProps = {
   activeFilter: number;
-  onClickCategory: any;
+  onClickCategory: (index: number) => void;
 };
 
 const Filter: React.FC<CategoriesProps> = ({

@@ -20,8 +20,9 @@ const Sort = () => {
   const [isPopupOpened, setIsPopupOpened] = React.useState(false);
 
   React.useEffect(() => {
-    const handleOutsideClick = (evt: any) => {
-      if (!evt.path.includes(sortRef.current)) {
+    const handleOutsideClick = (evt: MouseEvent) => {
+      const _evt = evt as MouseEvent & { path: Node[] };
+      if (sortRef.current && !_evt.path.includes(sortRef.current)) {
         setIsPopupOpened(false);
       }
     };

@@ -2,10 +2,12 @@ import React from "react";
 import ReactPaginate from "react-paginate";
 import styles from "./Pagination.module.scss";
 
-type PaginationProps = { onChangeCurrentPage: any };
+type PaginationProps = { onChangeCurrentPage: (page: number) => void };
+type PageHandle = MouseEvent & { selected: number };
 
 const Pagination: React.FC<PaginationProps> = ({ onChangeCurrentPage }) => {
-  const onPageHandle = (evt: any) => onChangeCurrentPage(evt.selected + 1);
+  const onPageHandle = (evt: PageHandle) =>
+    onChangeCurrentPage(evt.selected + 1);
 
   return (
     <ReactPaginate
@@ -16,7 +18,6 @@ const Pagination: React.FC<PaginationProps> = ({ onChangeCurrentPage }) => {
       pageRangeDisplayed={5}
       pageCount={2}
       previousLabel="<"
-      // renderOnZeroPageCount={null}
     />
   );
 };
