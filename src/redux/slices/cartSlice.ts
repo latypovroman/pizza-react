@@ -1,7 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 import recountTotals from "../../utils/recountTotals";
 
-const initialState = {
+type CartItem = {
+  id: string;
+  title: string;
+  price: number;
+  type: string;
+  size: number;
+  imageUrl: string;
+  count: number;
+};
+
+interface CartSliceState {
+  totalPrice: number;
+  items: CartItem[];
+  totalCount: number;
+}
+
+const initialState: CartSliceState = {
   totalPrice: 0,
   items: [],
   totalCount: 0,
@@ -57,7 +73,7 @@ export const cartSlice = createSlice({
 });
 
 export const selectCart = (state) => state.cartReducer;
-export const selectCartItemById = (id) => (state) => {
+export const selectCartItemById = (id: string) => (state) => {
   if (state.cartReducer.items) {
     return state.cartReducer.items.find((obj) => obj.id === id);
   } else {
