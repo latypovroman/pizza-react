@@ -36,7 +36,6 @@ const Home: React.FC = () => {
       });
 
       if (activeSort) {
-        console.log({ ...params, activeSort });
         dispatch(setDeeplinkFilter({ ...params, activeSort }));
         hasParams.current = true;
       }
@@ -80,9 +79,9 @@ const Home: React.FC = () => {
     didMounted.current = true;
   }, [activeFilter, activeSort, currentPage]);
 
-  const onChangeCategory = (index: number) => {
+  const onChangeCategory = React.useCallback((index: number) => {
     dispatch(setActiveFilter(index));
-  };
+  }, []);
 
   const onChangeCurrentPage = (number: number) => {
     dispatch(setCurrentPage(number));
@@ -108,7 +107,7 @@ const Home: React.FC = () => {
           activeFilter={activeFilter}
           onClickCategory={onChangeCategory}
         />
-        <Sort />
+        <Sort activeValue={activeSort} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === "error" && (
