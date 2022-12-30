@@ -1,8 +1,8 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import { addItem, decrementItem, removeItem } from "../redux/slices/cartSlice";
+import { useAppDispatch } from "../redux/store";
 
-type CartItemProps = {
+export type CartItemProps = {
   id: string;
   title: string;
   price: number;
@@ -21,11 +21,12 @@ const CartItem: React.FC<CartItemProps> = ({
   imageUrl,
   count,
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const handleAddSameItem = () => dispatch(addItem({ id }));
-  const handleDecrementItem = () => dispatch(decrementItem({ id }));
-  const handleRemoveItem = () => dispatch(removeItem({ id }));
+  const handleAddSameItem = () => dispatch(addItem({ id } as CartItemProps));
+  const handleDecrementItem = () =>
+    dispatch(decrementItem({ id } as CartItemProps));
+  const handleRemoveItem = () => dispatch(removeItem({ id } as CartItemProps));
 
   return (
     <div className="cart__item">

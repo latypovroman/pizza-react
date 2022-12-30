@@ -1,8 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../store";
 
 const initialState = {
   isOpened: false,
-  item: {},
+  item: {
+    id: "",
+    imageUrl: "",
+    title: "",
+    price: 0,
+    count: 0,
+    type: "",
+    size: 0,
+  },
 };
 
 export const popupSlice = createSlice({
@@ -21,7 +30,7 @@ export const popupSlice = createSlice({
   },
 });
 
-export const selectPopup = (state) => state.popupReducer;
+export const selectPopup = (state: RootState) => state.popupReducer;
 
 export const { setPopupData, openPopup, closePopup } = popupSlice.actions;
 

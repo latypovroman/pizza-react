@@ -1,13 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectActiveSort, setActiveSort } from "../redux/slices/filterSlice";
+import { SortType } from "../redux/slices/pizzasSlice";
 
-type SortTypesItem = {
-  name: string;
-  property: string;
-};
-
-export const sortTypes: SortTypesItem[] = [
+export const sortTypes: SortType[] = [
   { name: "популярности", property: "rating" },
   { name: "цене", property: "price" },
   { name: "алфавиту", property: "title" },
@@ -31,7 +27,7 @@ const Sort = () => {
     return () => document.body.removeEventListener("click", handleOutsideClick);
   }, []);
 
-  const onClickHandle = (type: SortTypesItem) => {
+  const onClickHandle = (type: SortType) => {
     dispatch(setActiveSort(type));
     setIsPopupOpened(false);
   };

@@ -1,16 +1,18 @@
 import React from "react";
 import styles from "./PizzaPopup.module.scss";
 import closeIcon from "../../assets/img/close-icon.svg";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { closePopup, selectPopup } from "../../redux/slices/popupSlice";
 import { addItem, selectCartItemById } from "../../redux/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../redux/store";
+import { CartItem } from "../../redux/slices/cartSlice";
 
 const PizzaPopup: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { item, isOpened } = useSelector(selectPopup);
-  const addedItem = useSelector(selectCartItemById(item.id));
+  const addedItem = useSelector(selectCartItemById(item));
   const rootStyles = [styles.inner];
 
   if (isOpened) {

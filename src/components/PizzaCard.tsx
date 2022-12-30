@@ -3,15 +3,32 @@ import { useDispatch, useSelector } from "react-redux";
 import { addItem, selectCartItemById } from "../redux/slices/cartSlice";
 import { openPopup, setPopupData } from "../redux/slices/popupSlice";
 import { useNavigate } from "react-router-dom";
+import { CartItem } from "../redux/slices/cartSlice";
 
-const PizzaCard = ({ id, title, price, imageUrl, sizes, types }) => {
+type PizzaCardProps = {
+  id: string;
+  title: string;
+  price: number;
+  imageUrl: string;
+  sizes: number[];
+  types: number[];
+};
+
+const PizzaCard: React.FC<PizzaCardProps> = ({
+  id,
+  title,
+  price,
+  imageUrl,
+  sizes,
+  types,
+}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const addedItem = useSelector(selectCartItemById(id));
+  const addedItem = useSelector(selectCartItemById({ id } as CartItem));
   const [activeSize, setActiveSize] = React.useState(0);
   const [doughType, setDoughType] = React.useState(0);
   const doughTypes = ["Тонкое", "Традиционное"];
-  const item = React.useMemo(() => {
+  const item: CartItem = React.useMemo(() => {
     return {
       id,
       title,
@@ -19,14 +36,15 @@ const PizzaCard = ({ id, title, price, imageUrl, sizes, types }) => {
       imageUrl,
       size: sizes[activeSize],
       type: doughTypes[doughType],
+      count: 0,
     };
   }, [id, imageUrl, sizes, types, price, doughType, activeSize, title]);
 
-  const onClickSize = (index) => {
+  const onClickSize = (index: number) => {
     setActiveSize(index);
   };
 
-  const onClickType = (index) => {
+  const onClickType = (index: number) => {
     setDoughType(index);
   };
 

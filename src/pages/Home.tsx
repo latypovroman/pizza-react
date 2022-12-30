@@ -6,7 +6,7 @@ import Sort from "../components/Sort";
 import PizzaCard from "../components/PizzaCard";
 import PizzaSkeleton from "../assets/PizzaSkeleton";
 import Pagination from "../components/Pagination";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   selectFilterSlice,
   setActiveFilter,
@@ -15,10 +15,11 @@ import {
 } from "../redux/slices/filterSlice";
 import { sortTypes } from "../components/Sort";
 import { fetchPizzas, selectPizzasSlice } from "../redux/slices/pizzasSlice";
+import { useAppDispatch } from "../redux/store";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { pizzas, status } = useSelector(selectPizzasSlice);
   const { activeFilter, activeSort, currentPage, searchValue } =
     useSelector(selectFilterSlice);
@@ -34,8 +35,11 @@ const Home: React.FC = () => {
         return params.activeSort === type.property;
       });
 
-      dispatch(setDeeplinkFilter({ ...params, activeSort }));
-      hasParams.current = true;
+      if (activeSort) {
+        console.log({ ...params, activeSort });
+        dispatch(setDeeplinkFilter({ ...params, activeSort }));
+        hasParams.current = true;
+      }
     }
   }, []);
 
@@ -47,7 +51,6 @@ const Home: React.FC = () => {
         searchValue,
         currentPage,
       };
-      // @ts-ignore
       dispatch(fetchPizzas(data));
     } catch (err) {
       console.log(err);

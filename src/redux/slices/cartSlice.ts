@@ -1,7 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
-import recountTotals from "../../utils/recountTotals";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import recountCounters from "../../utils/recountCounters";
+import { RootState } from "../store";
 
-type CartItem = {
+export type CartItem = {
   id: string;
   title: string;
   price: number;
@@ -11,7 +12,7 @@ type CartItem = {
   count: number;
 };
 
-interface CartSliceState {
+export interface CartSliceState {
   totalPrice: number;
   items: CartItem[];
   totalCount: number;
@@ -27,7 +28,7 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addItem: (state, action) => {
+    addItem: (state, action: PayloadAction<CartItem>) => {
       const duplicateItem = state.items.find(
         (obj) => obj.id === action.payload.id
       );
@@ -41,28 +42,31 @@ export const cartSlice = createSlice({
         });
       }
 
-      state.totalPrice = recountTotals(state.items).price;
-      state.totalCount = recountTotals(state.items).count;
+      recountCounters(state);
+      // state.totalPrice = recountTotals(state.items).price;
+      // state.totalCount = recountTotals(state.items).count;
     },
-    decrementItem: (state, action) => {
+    decrementItem: (state, action: PayloadAction<CartItem>) => {
       const duplicateItem = state.items.find(
         (obj) => obj.id === action.payload.id
       );
 
-      if (duplicateItem.count > 1) {
+      if (duplicateItem && duplicateItem.count > 1) {
         duplicateItem.count -= 1;
       } else {
         state.items = state.items.filter((obj) => obj.id !== action.payload.id);
       }
 
-      state.totalPrice = recountTotals(state.items).price;
-      state.totalCount = recountTotals(state.items).count;
+      recountCounters(state);
+      // state.totalPrice = recountTotals(state.items).price;
+      // state.totalCount = recountTotals(state.items).count;
     },
-    removeItem: (state, action) => {
+    removeItem: (state, action: PayloadAction<CartItem>) => {
       state.items = state.items.filter((obj) => obj.id !== action.payload.id);
 
-      state.totalPrice = recountTotals(state.items).price;
-      state.totalCount = recountTotals(state.items).count;
+      recountCounters(state);
+      // state.totalPrice = recountTotals(state.items).price;
+      // state.totalCount = recountTotals(state.items).count;
     },
     clearItems: (state) => {
       state.items = [];
@@ -72,10 +76,10 @@ export const cartSlice = createSlice({
   },
 });
 
-export const selectCart = (state) => state.cartReducer;
-export const selectCartItemById = (id: string) => (state) => {
+export const selectCart = (state: RootState) => state.cartReducer;
+export const selectCartItemById = (item: CartItem) => (state: RootState) => {
   if (state.cartReducer.items) {
-    return state.cartReducer.items.find((obj) => obj.id === id);
+    return state.cartReducer.items.find((obj) => obj.id === item.id);
   } else {
     return 0;
   }
