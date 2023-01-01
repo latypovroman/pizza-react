@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import recountCounters from "../../utils/recountCounters";
 import { RootState } from "../store";
+import getStoredCart from "../../utils/getStoredCart";
 
 export type CartItem = {
   id: string;
@@ -19,9 +20,9 @@ export interface CartSliceState {
 }
 
 const initialState: CartSliceState = {
-  totalPrice: 0,
-  items: [],
-  totalCount: 0,
+  totalPrice: getStoredCart().totalPrice,
+  items: getStoredCart().items,
+  totalCount: getStoredCart().totalCount,
 };
 
 export const cartSlice = createSlice({
@@ -43,8 +44,6 @@ export const cartSlice = createSlice({
       }
 
       recountCounters(state);
-      // state.totalPrice = recountTotals(state.items).price;
-      // state.totalCount = recountTotals(state.items).count;
     },
     decrementItem: (state, action: PayloadAction<CartItem>) => {
       const duplicateItem = state.items.find(
@@ -58,15 +57,11 @@ export const cartSlice = createSlice({
       }
 
       recountCounters(state);
-      // state.totalPrice = recountTotals(state.items).price;
-      // state.totalCount = recountTotals(state.items).count;
     },
     removeItem: (state, action: PayloadAction<CartItem>) => {
       state.items = state.items.filter((obj) => obj.id !== action.payload.id);
 
       recountCounters(state);
-      // state.totalPrice = recountTotals(state.items).price;
-      // state.totalCount = recountTotals(state.items).count;
     },
     clearItems: (state) => {
       state.items = [];
@@ -78,6 +73,7 @@ export const cartSlice = createSlice({
 
 export const selectCart = (state: RootState) => state.cartReducer;
 export const selectCartItemById = (item: CartItem) => (state: RootState) => {
+  console.log(state.cartReducer.items);
   if (state.cartReducer.items) {
     return state.cartReducer.items.find((obj) => obj.id === item.id);
   } else {
